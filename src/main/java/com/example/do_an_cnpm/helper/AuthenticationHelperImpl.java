@@ -2,7 +2,6 @@ package com.example.do_an_cnpm.helper;
 
 import com.example.do_an_cnpm.data_source.repo.UserSessionRepository;
 import com.example.do_an_cnpm.model.Account;
-import com.example.do_an_cnpm.model.Role;
 import com.example.do_an_cnpm.model.UserSession;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
@@ -59,21 +58,5 @@ public class AuthenticationHelperImpl implements AuthenticationHelper {
             return session.get().getDateExpired().after(today);
         }
         return false;
-    }
-
-    @Override
-    public boolean isTokenAdmin(@NonNull String token) {
-        if (isAliveToken(token)) {
-            Optional<UserSession> session = sessionRepo.findOne(Example.of(UserSession.builder().token(token).build()));
-            if (session.isPresent()) {
-                return session.get().getNhanVien().getChucVu().getTenChucVu().equals(Role.IS_ADMIN);
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isTokenUser(@NonNull String token) {
-        return !isTokenAdmin(token);
     }
 }

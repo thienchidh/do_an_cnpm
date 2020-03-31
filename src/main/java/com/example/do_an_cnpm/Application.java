@@ -1,7 +1,5 @@
 package com.example.do_an_cnpm;
 
-import com.example.do_an_cnpm.model.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application {
 
     public static void main(String[] args) throws Exception {
-        var account = Account.builder()
+        /*var account = Account.builder()
                 .username("thienchidh")
                 .password("123456")
                 .nhanVien(
@@ -36,7 +34,7 @@ public class Application {
 
         var x = new ObjectMapper().writeValueAsString(account);
 
-        System.out.println(x);
+        System.out.println(x);*/
 
         SpringApplication.run(Application.class, args);
     }

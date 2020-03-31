@@ -34,15 +34,15 @@ public class NhanVien {
     @Column(name = "SoDienThoai")
     private String soDienThoai;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "MaChucVu")
     private ChucVu chucVu;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "MaPhongBan")
     private PhongBan phongBan;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "MaTrinhDoHocVan")
     private TrinhDoHocVan trinhDoHocVan;
 }

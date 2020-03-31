@@ -13,9 +13,9 @@ import javax.persistence.*;
 public class TrangThaiCongViec {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    @Column(name = "MaTrangThaiCongViec")
+    private long maTrangThaiCongViec;
 
-    @Column(name = "trangThai", nullable = false)
+    @Column(name = "TrangThai")
     private String trangThai;
 }

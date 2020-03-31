@@ -1,0 +1,10 @@
+quy trình:
+	đăng ký tài khoản -> sesion -> token
+	tạo chức vụ, phòng ban
+	tạo nhân viên
+	lập hdld cho nhân viên
+	thêm phiếu giao việc cho nv
+	kiểm tra hiện trạng
+
+
+ngoài ra còn có các mục thêm sửa xóa ...

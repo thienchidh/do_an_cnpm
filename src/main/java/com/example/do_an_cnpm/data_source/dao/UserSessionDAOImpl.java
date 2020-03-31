@@ -96,7 +96,7 @@ public class UserSessionDAOImpl implements UserSessionDAO {
         return sessionRepo.save(UserSession.builder()
                 .token(authentication.makeToken(account))
                 .dateExpired(dateExpiredToken)
-                .nhanVien(account.getNhanVien())
+//                .nhanVien(account.getNhanVien())
                 .account(account)
                 .build()
         );

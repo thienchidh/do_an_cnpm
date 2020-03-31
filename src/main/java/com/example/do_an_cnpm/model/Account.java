@@ -39,8 +39,4 @@ public class Account {
     @CreationTimestamp
     @Column(name = "dateCreated")
     private Date dateCreated;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userId")
-    private NhanVien nhanVien;
 }

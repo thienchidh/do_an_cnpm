@@ -14,15 +14,15 @@ import java.util.Date;
 public class PhieuGiaoViec {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    @Column(name = "MaPhieuGiaoViec")
+    private long maPhieuGiaoViec;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "maNhanVien")
+    @OneToOne
+    @JoinColumn(name = "MaNhanVien")
     private NhanVien nhanVien;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "maCongViec")
+    @JoinColumn(name = "MaCongViec")
     private CongViec congViec;
 
     @Column(name = "TuNgay")
@@ -31,7 +31,7 @@ public class PhieuGiaoViec {
     @Column(name = "DenNgay")
     private Date denNgay;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "maTrangThaiCongViec")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "MaTrangThaiCongViec")
     private TrangThaiCongViec trangThaiCongViec;
 }

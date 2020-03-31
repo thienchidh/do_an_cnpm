@@ -15,7 +15,7 @@ public interface Authentication {
 
     boolean changePassword(@NonNull Account account);
 
-    void logoutAllSessionOfUser(Long userId);
+    void logoutAccountById(Long userId);
 
 //    boolean changePassword(UserSession session, Account account);
 }

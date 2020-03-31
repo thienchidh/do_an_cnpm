@@ -18,8 +18,5 @@ public interface AuthenticationHelper {
 
     boolean isAliveToken(@NonNull String token);
 
-    boolean isTokenAdmin(@NonNull String token);
-
-    boolean isTokenUser(@NonNull String token);
 }
 

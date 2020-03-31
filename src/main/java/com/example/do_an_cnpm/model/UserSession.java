@@ -29,9 +29,9 @@ public class UserSession {
     @Column(name = "dateExpired", nullable = false)
     private Date dateExpired;
 
-    @OneToOne
+    /*@OneToOne
     @JoinColumn(name = "nhanVienId")
-    private NhanVien nhanVien;
+    private NhanVien nhanVien;*/
 
     @JsonIgnore
     @OneToOne

@@ -16,6 +16,6 @@ public class ChucVu {
     @Column(name = "MaChucVu")
     private long maChucVu;
 
-    @Column(name = "TenChucVu", nullable = false)
+    @Column(name = "TenChucVu")
     private String tenChucVu;
 }

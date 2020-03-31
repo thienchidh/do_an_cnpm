@@ -1,14 +1,12 @@
 package com.example.do_an_cnpm.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@NonNull
 public class CustomRequest<T> {
     private String token;
     private T data;

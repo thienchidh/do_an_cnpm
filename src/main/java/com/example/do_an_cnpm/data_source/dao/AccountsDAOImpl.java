@@ -3,7 +3,6 @@ package com.example.do_an_cnpm.data_source.dao;
 import com.example.do_an_cnpm.data_source.repo.AccountsRepository;
 import com.example.do_an_cnpm.helper.AuthenticationHelper;
 import com.example.do_an_cnpm.model.Account;
-import com.example.do_an_cnpm.model.NhanVien;
 import com.example.do_an_cnpm.model.UserSession;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -94,9 +93,11 @@ public class AccountsDAOImpl implements AccountsDAO {
     @Override
     public UserSession login(@NonNull String token) {
 
-        Optional<UserSession> optional = userSessionDAO.findUserSessionBy(token);
-
-        return optional.map(session -> userSessionDAO.addAgeSession(session)).orElse(null);
+        if (authenticationHelper.isAliveToken(token)) {
+            Optional<UserSession> optional = userSessionDAO.findUserSessionBy(token);
+            return optional.map(session -> userSessionDAO.addAgeSession(session)).orElse(null);
+        }
+        return null;
     }
 
     @Override
@@ -132,7 +133,7 @@ public class AccountsDAOImpl implements AccountsDAO {
                 saveAccount(accountDB);
 
                 // logout all session of this user ?
-                logoutAllSessionOfUser(accountDB.getNhanVien().getMaNhanVien());
+                logoutAccountById(accountDB.getId());
                 return true;
             }
         }
@@ -142,8 +143,6 @@ public class AccountsDAOImpl implements AccountsDAO {
     @Transactional
     @Override
     public UserSession register(@NonNull Account account) {
-        if (account.getNhanVien() == null) return null;
-
         Account probe = Account.builder().username(account.getUsername()).build();
 
         boolean isAccountExists = accountsRepo.exists(Example.of(probe));
@@ -152,13 +151,13 @@ public class AccountsDAOImpl implements AccountsDAO {
 
     @Transactional
     @Override
-    public void logoutAllSessionOfUser(Long userId) {
+    public void logoutAccountById(Long accountId) {
         UserSession probe = UserSession.builder()
-                .nhanVien(NhanVien.builder()
-                        .maNhanVien(userId)
-                        .build()
-                )
+                .account(Account.builder()
+                        .id(accountId)
+                        .build())
                 .build();
+
         List<UserSession> userSessions = userSessionDAO.findAll(Example.of(probe));
         Date today = Calendar.getInstance().getTime();
         for (UserSession e : userSessions) {

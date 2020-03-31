@@ -13,8 +13,8 @@ import javax.persistence.*;
 public class CongViec {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    @Column(name = "MaCongViec")
+    private long maCongViec;
 
     @Column(name = "TenCongViec")
     private String tenCongViec;

@@ -32,6 +32,6 @@ public class UserServices {
     }
 
     public void logoutAllSessionOfUser(Long userId) {
-        authentication.logoutAllSessionOfUser(userId);
+        authentication.logoutAccountById(userId);
     }
 }
