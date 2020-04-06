@@ -20,8 +20,8 @@ public class UserSession {
     @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "userSessionId")
+    private Long userSessionId;
 
     @Column(unique = true)
     private String token;

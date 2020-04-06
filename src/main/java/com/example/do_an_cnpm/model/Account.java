@@ -21,8 +21,8 @@ public class Account {
     @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "accountId")
+    private Long accountId;
 
     @Column(name = "username", unique = true, nullable = false)
     private String username;

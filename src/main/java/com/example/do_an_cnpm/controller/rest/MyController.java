@@ -8,13 +8,11 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -209,6 +207,20 @@ public class MyController {
     }
 
     @RequestMapping(
+            value = "/findAllByTenPhongBan",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<?> findAllByTenPhongBan(@RequestBody CustomRequest<String> body) {
+        @NonNull var token = body.getToken();
+        @NonNull var data = body.getData();
+        if (authenticationHelper.isAliveToken(token)) {
+            return new ResponseEntity<>(ResponseEntity.ok(phongBanRepository.findAllByTenPhongBan(data)), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(ResponseEntity.notFound().build(), HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(
             value = "/themPhongBan",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -271,10 +283,13 @@ public class MyController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<?> danhSachNhanVien(@RequestBody CustomRequest<Void> body) {
+    ResponseEntity<?> danhSachNhanVien(@RequestBody CustomRequest<Void> body,
+                                       @RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "30") int limit) {
         @NonNull var token = body.getToken();
         if (authenticationHelper.isAliveToken(token)) {
-            return new ResponseEntity<>(ResponseEntity.ok(nhanVienRepository.findAll()), HttpStatus.OK);
+            return new ResponseEntity<>(ResponseEntity.ok(nhanVienRepository.findAll(PageRequest.of(page, limit)).getContent()),
+                    HttpStatus.OK);
         }
         return new ResponseEntity<>(ResponseEntity.notFound().build(), HttpStatus.NOT_FOUND);
     }
@@ -303,17 +318,29 @@ public class MyController {
         @NonNull var data = body.getData();
         if (authenticationHelper.isAliveToken(token)) {
             var chucVu = data.getChucVu();
-            if (!chucVuRepository.existsById(chucVu.getMaChucVu())) {
-                chucVuRepository.save(chucVu);
+
+            var byTenChucVu = chucVuRepository.findAllByTenChucVu(chucVu.getTenChucVu());
+            if (byTenChucVu.isEmpty()) {
+                data.setChucVu(chucVuRepository.save(chucVu));
+            } else {
+                data.setChucVu(byTenChucVu.get(0));
             }
             var phongBan = data.getPhongBan();
-            if (!phongBanRepository.existsById(phongBan.getMaPhongBan())) {
-                phongBanRepository.save(phongBan);
+
+            var byTenPhongBan = phongBanRepository.findAllByTenPhongBan(phongBan.getTenPhongBan());
+
+            if (byTenPhongBan.isEmpty()) {
+                data.setPhongBan(phongBanRepository.save(phongBan));
+            } else {
+                data.setPhongBan(byTenPhongBan.get(0));
             }
 
             var trinhDoHocVan = data.getTrinhDoHocVan();
-            if (!trinhDoHocVanRepository.existsById(trinhDoHocVan.getMaTrinhDoHocVan())) {
-                trinhDoHocVanRepository.save(trinhDoHocVan);
+            var byTenTrinhDoHocVan = trinhDoHocVanRepository.findAllByTenTrinhDoHocVan(trinhDoHocVan.getTenTrinhDoHocVan());
+            if (byTenTrinhDoHocVan.isEmpty()) {
+                data.setTrinhDoHocVan(trinhDoHocVanRepository.save(trinhDoHocVan));
+            } else {
+                data.setTrinhDoHocVan(byTenTrinhDoHocVan.get(0));
             }
 
             var byId = nhanVienRepository.findById(data.getMaNhanVien());

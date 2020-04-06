@@ -133,7 +133,7 @@ public class AccountsDAOImpl implements AccountsDAO {
                 saveAccount(accountDB);
 
                 // logout all session of this user ?
-                logoutAccountById(accountDB.getId());
+                logoutAccountById(accountDB.getAccountId());
                 return true;
             }
         }
@@ -154,7 +154,7 @@ public class AccountsDAOImpl implements AccountsDAO {
     public void logoutAccountById(Long accountId) {
         UserSession probe = UserSession.builder()
                 .account(Account.builder()
-                        .id(accountId)
+                        .accountId(accountId)
                         .build())
                 .build();
 
